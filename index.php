@@ -5,6 +5,7 @@
         <meta charset="utf-8">
         <link rel="stylesheet" href="assets/style/bootstrap/css/bootstrap.min.css">
         <link rel="stylesheet" href="assets/style.css">
+        <link rel="stylesheet" href="assets/css/datepicker.css"/>
         <script>
             document.write('<base href="' + document.location + '" />');
         </script>
@@ -30,38 +31,38 @@
             </div>
         </nav>
 
-        <div class="container" ng-controller="FormCtrl">
+        <div class="container">
             <h3>Sign up</h3>
             <hr>
-            <form method="POST" enctype="multipart/form-data">
+            <form ng-controller="formCtrl" method="POST" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="username">Name <span class="asterisk">*</span></label>
-                    <input class="form-control" type="text" ng-model="username" required>
+                    <input class="form-control" type="text" ng-model="user.name" required>
                 </div>
                 <div class="form-group">
                     <label for="password">E-mail <span class="asterisk">*</span></label>
-                    <input class="form-control" type="email" ng-model="email" required>
+                    <input class="form-control" type="email" ng-model="user.email" required>
                 </div>
                 <div class="form-group">
                     <label for="password">Password <span class="asterisk">*</span></label>
-                    <input class="form-control" type="password" ng-model="password" required>
+                    <input class="form-control" type="password" ng-model="user.password" required>
                 </div>
                 <div class="form-group">
                     <label for="country">Country <span class="asterisk">*</span></label>
 
-                    <select class="form-control" ng-model="country" ng-options="country.name for country in countries track by country.code">
+                    <select class="form-control" ng-model="user.country" ng-options="country.name for country in countries track by country.code">
                         <option value="">-- Select a Country --</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label>Recieve new info on your e-mail?</label> <br/>
-                    <input type="radio" ng-model="post" value="false"/> Yes
-                    <input type="radio" ng-model="post" value="true"/> No
+                    <input type="radio" ng-model="user.post" value="false"/> Yes
+                    <input type="radio" ng-model="user.post" value="true"/> No
                 </div>
                 <div class="form-group">
                     <label>Select your intrests</label><br/>       
                     <div ng-repeat="item in interests">
-                        <input id="{{item}}" type="checkbox" value="{{item}}" ng-checked="selection.indexOf(item) > -1" ng-click="toggleSelection(item)" /> {{ item }} <br/>
+                        <input id="{{item}}" type="checkbox" value="{{item}}" ng-checked="selection.indexOf(item) > -1" ng-click="toggleSelection(item)" /> {{ item}} <br/>
                     </div>
                 </div>
                 <div class="form-group">
@@ -70,6 +71,21 @@
 
                     </textarea>
                 </div>
+                <div class="form-group">
+                    <label>Upload image</label>
+                    <input type="file" name="file" onchange="angular.element(this).scope().uploadFile(this.files)"/>
+                </div>
+
+                <div class="form-group" ng-class="{'has-error': datepickerForm.date.$invalid}">
+                    <label class="control-label"><i class="fa fa-calendar"></i> Set the date</label>
+                    <input class="form-control" ng-model="selectedDate" name="date" bs-datepicker type="text">
+                </div>
+
+                <div class="form-group" ng-class="{'has-error': timepickerForm.time.$invalid}">
+                    <label class="control-label"><i class="fa fa-clock-o"></i> Set the time</label>
+                    <input class="form-control" size="8" ng-model="time" name="time" bs-timepicker type="text">
+                </div>
+
 
                 <div class="form-group">
                     <input class="form-control btn btn-primary" type="submit" value="Send">
@@ -80,11 +96,16 @@
 
 
         <script src="assets/js/angular.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/angular-strap/2.1.2/angular-strap.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/angular-strap/2.1.2/angular-strap.tpl.min.js"></script>
         <script src="assets/js/jquery.js"></script>
         <script src="assets/js/bootstrap.min.js"></script>
+        <script src="assets/js/bootstrap-datepicker.js"></script>
 
         <script src="app/app.module.js"></script>
         <script src="app/form/formService.js"></script>
+        <script src="app/form/formController.js"></script>
+
 
     </body>
 </html>
