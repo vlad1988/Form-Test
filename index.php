@@ -5,10 +5,20 @@
         <meta charset="utf-8">
         <link rel="stylesheet" href="assets/style/bootstrap/css/bootstrap.min.css">
         <link rel="stylesheet" href="assets/style.css">
-        <link rel="stylesheet" href="assets/css/datepicker.css"/>
         <script>
             document.write('<base href="' + document.location + '" />');
         </script>
+        <style>
+            .button {
+                -moz-appearance: button;
+                /* Firefox */
+                -webkit-appearance: button;
+                /* Safari and Chrome */
+                padding: 10px;
+                margin: 10px;
+                width: 170px;
+            }
+        </style>
     </head>
     <body>
 
@@ -35,6 +45,7 @@
             <h3>Sign up</h3>
             <hr>
             <form ng-controller="formCtrl" method="POST" enctype="multipart/form-data">
+                {{user}}
                 <div class="form-group">
                     <label for="username">Name <span class="asterisk">*</span></label>
                     <input class="form-control" type="text" ng-model="user.name" required>
@@ -50,7 +61,7 @@
                 <div class="form-group">
                     <label for="country">Country <span class="asterisk">*</span></label>
 
-                    <select class="form-control" ng-model="user.country" ng-options="country.name for country in countries track by country.code">
+                    <select class="form-control" ng-model="user.country" ng-options="country.name for country in countries track by country.name">
                         <option value="">-- Select a Country --</option>
                     </select>
                 </div>
@@ -67,28 +78,29 @@
                 </div>
                 <div class="form-group">
                     <label for="message">Message </label>
-                    <textarea class="form-control">
+                    <textarea ng-model="user.message" class="form-control">
 
                     </textarea>
                 </div>
                 <div class="form-group">
-                    <label>Upload image</label>
-                    <input type="file" name="file" onchange="angular.element(this).scope().uploadFile(this.files)"/>
+                    <label>Upload image</label><br/>
+                    <div class="btn btn-default" ngf-select ngf-change="upload($files)"><i class="glyphicon glyphicon-file"></i> Upload image</div>
+                    <div>{{ log }}</div>
                 </div>
 
                 <div class="form-group" ng-class="{'has-error': datepickerForm.date.$invalid}">
                     <label class="control-label"><i class="fa fa-calendar"></i> Set the date</label>
-                    <input class="form-control" ng-model="selectedDate" name="date" bs-datepicker type="text">
+                    <input class="form-control" ng-model="user.selectedDate"  name="date" bs-datepicker type="text">
                 </div>
 
                 <div class="form-group" ng-class="{'has-error': timepickerForm.time.$invalid}">
                     <label class="control-label"><i class="fa fa-clock-o"></i> Set the time</label>
-                    <input class="form-control" size="8" ng-model="time" name="time" bs-timepicker type="text">
+                    <input class="form-control" size="8" ng-model="user.time"  name="time" bs-timepicker type="text">
                 </div>
 
 
                 <div class="form-group">
-                    <input class="form-control btn btn-primary" type="submit" value="Send">
+                    <input class="form-control btn btn-primary" type="button" ng-click="sendMe()" value="Send">
                 </div>
             </form>
         </div>
@@ -100,7 +112,8 @@
         <script src="//cdnjs.cloudflare.com/ajax/libs/angular-strap/2.1.2/angular-strap.tpl.min.js"></script>
         <script src="assets/js/jquery.js"></script>
         <script src="assets/js/bootstrap.min.js"></script>
-        <script src="assets/js/bootstrap-datepicker.js"></script>
+        <script src="assets/js/ng-file-upload-shim.js"></script>
+        <script src="assets/js/ng-file-upload.min.js"></script>
 
         <script src="app/app.module.js"></script>
         <script src="app/form/formService.js"></script>
