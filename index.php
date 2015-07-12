@@ -65,12 +65,12 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>Recieve new info on your e-mail?</label> <br/>
-                    <input type="radio" ng-model="user.post" value="false"/> Yes
-                    <input type="radio" ng-model="user.post" value="true"/> No
+                    <label>Receive new info on your e-mail?</label> <br/>
+                    <input type="radio" ng-model="user.receive" value="true"/> Yes
+                    <input type="radio" ng-model="user.receive" value="false"/> No
                 </div>
                 <div class="form-group">
-                    <label><i class="glyphicon glyphicon-road"></i> Select your intrests</label><br/>       
+                    <label>Select your interests</label><br/>       
                     <div ng-repeat="item in interests">
                         <input id="{{item}}" type="checkbox" value="{{item}}" ng-checked="selection.indexOf(item) > -1" ng-click="toggleSelection(item)" /> {{ item}} <br/>
                     </div>
