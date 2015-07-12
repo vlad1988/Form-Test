@@ -42,7 +42,7 @@
         </nav>
 
         <div class="container">
-            <h3>Sign up</h3>
+            <h3>Register account</h3>
             <hr>
             <form ng-controller="formCtrl" method="POST" enctype="multipart/form-data">
                 {{user}}
@@ -61,8 +61,7 @@
                 <div class="form-group">
                     <label for="country">Country <span class="asterisk">*</span></label>
 
-                    <select class="form-control" ng-model="user.country" ng-options="country.name for country in countries track by country.name">
-                        <option value="">-- Select a Country --</option>
+                    <select required class="form-control" ng-model="user.country" ng-options="country.name for country in countries track by country.name">
                     </select>
                 </div>
                 <div class="form-group">
@@ -71,40 +70,49 @@
                     <input type="radio" ng-model="user.post" value="true"/> No
                 </div>
                 <div class="form-group">
-                    <label>Select your intrests</label><br/>       
+                    <label><i class="glyphicon glyphicon-road"></i> Select your intrests</label><br/>       
                     <div ng-repeat="item in interests">
                         <input id="{{item}}" type="checkbox" value="{{item}}" ng-checked="selection.indexOf(item) > -1" ng-click="toggleSelection(item)" /> {{ item}} <br/>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="message">Message </label>
+                    <label class="control-label"><i class="glyphicon glyphicon-calendar"></i> Set date and time</label><br>
+                    <div class="form-group">
+                        <input size="10" class="form-control" ng-model="user.sharedDate" data-autoclose="1" placeholder="Date" bs-datepicker type="text">
+                    </div>
+                    <div class="form-group">
+                        <input size="8" class="form-control" ng-model="user.sharedDate" data-time-format="h:mm:ss a" data-autoclose="1" placeholder="Time" bs-timepicker type="text">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="message"><i class="glyphicon glyphicon-envelope"></i> Message </label>
                     <textarea ng-model="user.message" class="form-control">
 
                     </textarea>
                 </div>
                 <div class="form-group">
-                    <label>Upload image</label><br/>
-                    <div class="btn btn-default" ngf-select ngf-change="upload($files)"><i class="glyphicon glyphicon-file"></i> Upload image</div>
-                    <div>{{ log }}</div>
+                    <label>Upload avatar</label><br/>
+                    <div class="btn btn-default" ngf-select ngf-change="upload($files)"><i class="glyphicon glyphicon-file"></i> Upload </div>
+                    <div>{{log}}</div>
                 </div>
 
-                <div class="form-group" ng-class="{'has-error': datepickerForm.date.$invalid}">
-                    <label class="control-label"><i class="fa fa-calendar"></i> Set the date</label>
-                    <input class="form-control" ng-model="user.selectedDate"  name="date" bs-datepicker type="text">
+                <div ng-hide="toggleLoader">
+                    <div class="text-center">
+                        <img  src="assets/712.GIF">
+                    </div>
                 </div>
-
-                <div class="form-group" ng-class="{'has-error': timepickerForm.time.$invalid}">
-                    <label class="control-label"><i class="fa fa-clock-o"></i> Set the time</label>
-                    <input class="form-control" size="8" ng-model="user.time"  name="time" bs-timepicker type="text">
-                </div>
-
-
-                <div class="form-group">
+                <div ng-show="toggleLoader" class="form-group">
                     <input class="form-control btn btn-primary" type="button" ng-click="sendMe()" value="Send">
                 </div>
             </form>
+
         </div>
 
+        <footer class="main">
+            <div class="box text-center">
+                &COPY; 2015 Super Site
+            </div>
+        </footer>
 
 
         <script src="assets/js/angular.min.js"></script>

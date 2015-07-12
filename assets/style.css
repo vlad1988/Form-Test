@@ -1,3 +1,18 @@
 .asterisk {
     color: red;
 }
+
+footer {
+    min-height: 200px;
+    background-color: #222222;
+    margin: 50px 0 0 0;
+    position: relative;
+}
+
+footer .box {
+    position: absolute;
+    bottom: 0;
+    color: #fff;
+    background-color: #121212;
+    width: 100%;
+}

@@ -5,6 +5,8 @@ app.controller('formCtrl', ['$scope', '$http', 'formService', 'Upload', 'UserSer
         $scope.selection = [];
         $scope.log = '';
 
+        $scope.toggleLoader = true;
+
         $scope.user = {};
 
         $scope.$watch('files', function () {
@@ -30,13 +32,15 @@ app.controller('formCtrl', ['$scope', '$http', 'formService', 'Upload', 'UserSer
 
 
         $scope.sendMe = function () {
+            $scope.toggleLoader = false;
             UserService.sendData($scope.user)
                     .then(function () {
-                        location.reload();
+                        //location.reload();
+                        $scope.toggleLoader = true;
                     });
         };
-        
-        
+
+
         $scope.toggleSelection = function (item) {
             var idx = $scope.selection.indexOf(item);
             if (idx > -1) {
