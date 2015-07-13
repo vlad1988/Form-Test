@@ -44,30 +44,52 @@
         <div class="container">
             <h3>Register account</h3>
             <hr>
-            <form ng-controller="formCtrl" method="POST" enctype="multipart/form-data">
-                {{user}}
+            <form name="form" ng-controller="formCtrl" method="POST" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="username">Name <span class="asterisk">*</span></label>
-                    <input class="form-control" type="text" ng-model="user.name" required>
+                    <input class="form-control" name="name" type="text" ng-model="user.name" required ng-pattern="/^[a-zA-Z]+/" ng-maxlength="30" ng-minlength="3">
+                    <div  ng-show="form.name.$dirty && form.name.$invalid">
+                        <div ng-show="form.name.$error.required">Field is a required</div>
+                        <div ng-show="form.name.$error.minlength">The minimum number of characters in a field 3</div>
+                        <div ng-show="form.name.$error.maxlength">Maximum number of characters in the field no more than 30</div>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="password">E-mail <span class="asterisk">*</span></label>
-                    <input class="form-control" type="email" ng-model="user.email" required>
+                    <input class="form-control" name="email" type="email" ng-model="user.email" required>
+                    <div  ng-show="form.email.$dirty && form.email.$invalid">
+                        <div ng-show="form.email.$error.email">This field must contain email</div>
+                        <div ng-show="form.email.$error.required">Field is a required</div>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="password">Password <span class="asterisk">*</span></label>
-                    <input class="form-control" type="password" ng-model="user.password" required>
+                    <div class="input-group">
+                        <span class="input-group-btn">
+                            <button ng-click="showHidePassword()" class="btn btn-default" type="button"><i class="glyphicon glyphicon-eye-open"></i></button>
+                        </span>
+                        <input type="{{inputType}}" name="password" class="form-control" ng-model="user.password" ng-maxlength="60" ng-minlength="3" required>
+                        <div  ng-show="form.password.$dirty && form.password.$invalid">
+                            <div ng-show="form.password.$error.min">The minimum number of characters in a field 3</div>
+                            <div ng-show="form.password.$error.max">Maximum number of characters in the field no more than 60</div>
+                            <div ng-show="form.password.$error.required">Field is a required</div>
+                        </div>
+                    </div>
+
                 </div>
                 <div class="form-group">
                     <label for="country">Country <span class="asterisk">*</span></label>
 
-                    <select required class="form-control" ng-model="user.country" ng-options="country.name for country in countries track by country.name">
+                    <select name="country" required class="form-control" ng-model="user.country" ng-options="country.name for country in countries track by country.name">
                     </select>
+                    <div  ng-show="form.country.$dirty && form.country.$invalid">
+                        <div ng-show="form.country.$error.required">Field is a required</div>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label>Receive new info on your e-mail?</label> <br/>
-                    <input type="radio" ng-model="user.receive" value="true"/> Yes
-                    <input type="radio" ng-model="user.receive" value="false"/> No
+                    <input type="radio" ng-model="user.receive" value="1"/> Yes
+                    <input type="radio" ng-model="user.receive" value="2"/> No
                 </div>
                 <div class="form-group">
                     <label>Select your interests</label><br/>       
@@ -96,13 +118,18 @@
                     <div>{{log}}</div>
                 </div>
 
+                <div class="form-group" ng-hide="successAlert">
+                    <div class="alert alert-success" role="alert">
+                        Your account was added! Your data send on e-mail
+                    </div>
+                </div>
                 <div ng-hide="toggleLoader">
                     <div class="text-center">
                         <img  src="assets/712.GIF">
                     </div>
                 </div>
                 <div ng-show="toggleLoader" class="form-group">
-                    <input class="form-control btn btn-primary" type="button" ng-click="sendMe()" value="Send">
+                    <input ng-disabled="form.$dirty && form.$invalid" class="form-control btn btn-primary" type="button" ng-click="sendMe()" value="Send">
                 </div>
             </form>
 
@@ -125,6 +152,7 @@
 
         <script src="app/app.module.js"></script>
         <script src="app/form/formService.js"></script>
+        <script src="app/user/userService.js"></script>
         <script src="app/form/formController.js"></script>
 
 

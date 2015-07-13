@@ -2,16 +2,21 @@ app.controller('formCtrl', ['$scope', '$http', 'formService', 'Upload', 'UserSer
 
         $scope.countries = formService.getCountries();
         $scope.interests = formService.getInterests();
+
+        $scope.inputType = 'password';
+        $scope.toggleLoader = true;
+        $scope.successAlert = true;
         $scope.selection = [];
         $scope.log = '';
-
-        $scope.toggleLoader = true;
-
         $scope.user = {};
 
-        $scope.$watch('files', function () {
-            $scope.upload($scope.files);
-        });
+
+        $scope.showHidePassword = function () {
+            if ($scope.inputType == 'password')
+                $scope.inputType = 'text';
+            else
+                $scope.inputType = 'password';
+        };
 
 
         $scope.upload = function (files) {
@@ -35,8 +40,11 @@ app.controller('formCtrl', ['$scope', '$http', 'formService', 'Upload', 'UserSer
             $scope.toggleLoader = false;
             UserService.sendData($scope.user)
                     .then(function () {
-                        //location.reload();
+                        $scope.successAlert = false;
                         $scope.toggleLoader = true;
+                        setTimeout(function () {
+                            window.location.href = '/';
+                        }, 1000);
                     });
         };
 
