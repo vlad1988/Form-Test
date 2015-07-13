@@ -134,7 +134,7 @@
                     <div class="btn btn-default" ngf-select ngf-change="upload($files)"><i class="glyphicon glyphicon-file"></i> Upload </div>
                     <div>{{log}}</div>
                     <div class="crop" ng-hide="preview">
-                        <img src="download/cache/{{imgsrc}}" alt="Upload image">
+                        <img ng-src="download/cache/{{imgsrc}}" alt="Upload image">
                     </div>
                 </div>
 

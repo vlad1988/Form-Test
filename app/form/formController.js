@@ -45,9 +45,9 @@ app.controller('formCtrl', ['$scope', '$http', 'formService', 'Upload', 'UserSer
                     .then(function () {
                         $scope.successAlert = false;
                         $scope.toggleLoader = true;
-//                        setTimeout(function () {
-//                            window.location.href = '/';
-//                        }, 1000);
+                        setTimeout(function () {
+                            window.location.href = '/';
+                        }, 2000);
                     });
         };
 
