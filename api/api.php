@@ -11,18 +11,21 @@ ActiveRecord\Config::initialize(function($config) {
 $postdata = file_get_contents("php://input");
 $request = json_decode($postdata);
 
-
+$response = new stdClass();
+$response->response_status = "Ok";
 /*
  * Vars validation
  */
-if (!preg_match("/^[a-zA-Z ]*$/",$request->name)) {
-  $nameErr = "Only letters and white space allowed";
-  return $nameErr;
+if (!preg_match("/^[a-zA-Z ]*$/", $request->name)) {
+    $nameErr = "Only letters allowed";
+    $response->response_status = "Error";
+    $response->error_type = "Validation error";
 }
 
 if (!filter_var($request->email, FILTER_VALIDATE_EMAIL)) {
-  $emailErr = "Invalid email format";
-  return $emailErr;
+    $emailErr = "Invalid email format";
+    $response->response_status = "Error";
+    $response->error_type = "Validation error";
 }
 
 /*
@@ -68,11 +71,16 @@ $user = User::create(array(
  * Send email
  */
 
-$to      = $request->email;
+$to = $request->email;
 $subject = 'Create account';
-$message = 'We Greet You! You have created an account on our site.';
+$message = 'We greet you! You have created an account on our site.';
 $headers = 'From: webmaster@example.com' . "\r\n" .
-    'Reply-To: webmaster@example.com' . "\r\n";
+        'Reply-To: webmaster@example.com' . "\r\n";
 
 mail($to, $subject, $message, $headers);
 
+/*
+ * Send Response
+ */
+header('Content-Type: application/json;charset=UTF-8');
+echo json_encode($response);
