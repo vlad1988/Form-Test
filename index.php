@@ -8,36 +8,9 @@
         <script>
             document.write('<base href="' + document.location + '" />');
         </script>
-        <style>
-            .button {
-                -moz-appearance: button;
-                /* Firefox */
-                -webkit-appearance: button;
-                /* Safari and Chrome */
-                padding: 10px;
-                margin: 10px;
-                width: 170px;
-            }
 
-            .box-validate {
-                color: red;
-            }
-
-            .crop {
-                width: 200px;
-                height: 150px;
-                overflow: hidden;
-            }
-
-            .crop img {
-                width: 400px;
-                height: 300px;
-                margin: -75px 0 0 -100px;
-            }
-        </style>
     </head>
     <body>
-
         <nav class="navbar navbar-inverse">
             <div class="container">
                 <div class="navbar-header">
@@ -47,13 +20,13 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="#">User Page</a>
+                    <a class="navbar-brand" href="/">User Page</a>
                 </div>
                 <div id="navbar" class="collapse navbar-collapse">
                     <ul class="nav navbar-nav">
                         <li class="active"><a href="/">Home</a></li>
                     </ul>
-                </div><!--/.nav-collapse -->
+                </div>
             </div>
         </nav>
 
@@ -62,7 +35,7 @@
             <hr>
             <form name="form" ng-controller="formCtrl" method="POST" enctype="multipart/form-data">
                 <div class="form-group">
-                    <label for="username">Name <span class="asterisk">*</span></label>
+                    <label for="name">Name <span class="asterisk">*</span></label>
                     <input class="form-control" name="name" type="text" ng-model="user.name" required ng-pattern="/^[a-zA-Z]+/" ng-maxlength="30" ng-minlength="6">
                     <div class="box-validate"  ng-show="form.name.$dirty && form.name.$invalid">
                         <div ng-show="form.name.$error.pattern">Only latin symbols</div>
@@ -72,7 +45,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="password">E-mail <span class="asterisk">*</span></label>
+                    <label for="email">E-mail <span class="asterisk">*</span></label>
                     <input class="form-control"  name="email" type="email" ng-model="user.email" required>
                     <div class="box-validate" ng-show="form.email.$dirty && form.email.$invalid">
                         <div ng-show="form.email.$error.email">This field must contain email</div>
@@ -80,19 +53,14 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="password">Password <span class="asterisk">*</span></label>
-                    <div class="input-group">
-                        <span class="input-group-btn">
-                            <button ng-click="showHidePassword()" class="btn btn-default" type="button"><i class="glyphicon glyphicon-eye-open"></i></button>
-                        </span>
-                        <input type="{{inputType}}" name="password" class="form-control" ng-model="user.password" ng-maxlength="60" ng-minlength="3" required>
-                        <div class="box-validate" ng-show="form.password.$dirty && form.password.$invalid">
-                            <div ng-show="form.password.$error.min">The minimum number of characters in a field 3</div>
-                            <div ng-show="form.password.$error.max">Maximum number of characters in the field no more than 60</div>
-                            <div ng-show="form.password.$error.required">Field is a required</div>
-                        </div>
+                    <label for="password">
+                        Password <input ng-click="showHidePassword()"  type="checkbox"> <i class="glyphicon glyphicon-eye-open"></i>
+                        <span class="asterisk">*</span> 
+                    </label>
+                    <input type="{{inputType}}" name="password" class="form-control" ng-model="user.password" required>
+                    <div class="box-validate" ng-show="form.password.$dirty && form.password.$invalid">
+                        <div ng-show="form.password.$error.required">Field is a required</div>
                     </div>
-
                 </div>
                 <div class="form-group">
                     <label for="country">Country <span class="asterisk">*</span></label>
@@ -145,7 +113,7 @@
                 </div>
                 <div ng-hide="toggleLoader">
                     <div class="text-center">
-                        <img  src="assets/712.GIF">
+                        <img  src="assets/img/712.GIF">
                     </div>
                 </div>
                 <div ng-show="toggleLoader" class="form-group">
@@ -174,7 +142,6 @@
         <script src="app/form/formService.js"></script>
         <script src="app/user/userService.js"></script>
         <script src="app/form/formController.js"></script>
-
 
     </body>
 </html>
