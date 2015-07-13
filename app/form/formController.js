@@ -6,6 +6,7 @@ app.controller('formCtrl', ['$scope', '$http', 'formService', 'Upload', 'UserSer
         $scope.inputType = 'password';
         $scope.toggleLoader = true;
         $scope.successAlert = true;
+        $scope.preview = true;
         $scope.selection = [];
         $scope.log = '';
         $scope.user = {};
@@ -30,6 +31,8 @@ app.controller('formCtrl', ['$scope', '$http', 'formService', 'Upload', 'UserSer
                     }).success(function (data, status, headers, config) {
                         $scope.log = 'Image: ' + config.file.name + ' upload finished';
                         $scope.user.filename = config.file.name;
+                        $scope.imgsrc = config.file.name;
+                        $scope.preview = false;
                     });
                 }
             }
@@ -42,9 +45,9 @@ app.controller('formCtrl', ['$scope', '$http', 'formService', 'Upload', 'UserSer
                     .then(function () {
                         $scope.successAlert = false;
                         $scope.toggleLoader = true;
-                        setTimeout(function () {
-                            window.location.href = '/';
-                        }, 1000);
+//                        setTimeout(function () {
+//                            window.location.href = '/';
+//                        }, 1000);
                     });
         };
 

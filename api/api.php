@@ -12,13 +12,28 @@ $postdata = file_get_contents("php://input");
 $request = json_decode($postdata);
 
 
+/*
+ * Vars validation
+ */
+if (!preg_match("/^[a-zA-Z ]*$/",$request->name)) {
+  $nameErr = "Only letters and white space allowed";
+  return $nameErr;
+}
 
+if (!filter_var($request->email, FILTER_VALIDATE_EMAIL)) {
+  $emailErr = "Invalid email format";
+  return $emailErr;
+}
+
+/*
+ * Check properties
+ */
 if (!property_exists($request, 'receive')) {
     $request->receive = 0;
 }
 
 if (!property_exists($request, 'interests')) {
-    $request->interests = 'NULL';
+    $request->interests = array();
 }
 
 if (!property_exists($request, 'filename')) {
@@ -33,12 +48,15 @@ if (!property_exists($request, 'message')) {
     $request->message = 'NULL';
 }
 
+/*
+ * Create user
+ */
 $user = User::create(array(
             'name' => $request->name,
             'email' => $request->email,
             'password' => password_hash($request->password, PASSWORD_DEFAULT),
             'country' => $request->country->name,
-            'receive' => (int)$request->receive,
+            'receive' => $request->receive,
             'interest' => implode(",", $request->interests),
             'sharedDate' => $request->sharedDate,
             'message' => $request->message,
@@ -46,7 +64,15 @@ $user = User::create(array(
             'created_at' => date("Y-m-d H:i:s"),
         ));
 
+/*
+ * Send email
+ */
 
+$to      = $request->email;
+$subject = 'Create account';
+$message = 'We Greet You! You have created an account on our site.';
+$headers = 'From: webmaster@example.com' . "\r\n" .
+    'Reply-To: webmaster@example.com' . "\r\n";
 
-
+mail($to, $subject, $message, $headers);
 

@@ -18,6 +18,22 @@
                 margin: 10px;
                 width: 170px;
             }
+
+            .box-validate {
+                color: red;
+            }
+
+            .crop {
+                width: 200px;
+                height: 150px;
+                overflow: hidden;
+            }
+
+            .crop img {
+                width: 400px;
+                height: 300px;
+                margin: -75px 0 0 -100px;
+            }
         </style>
     </head>
     <body>
@@ -47,17 +63,18 @@
             <form name="form" ng-controller="formCtrl" method="POST" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="username">Name <span class="asterisk">*</span></label>
-                    <input class="form-control" name="name" type="text" ng-model="user.name" required ng-pattern="/^[a-zA-Z]+/" ng-maxlength="30" ng-minlength="3">
-                    <div  ng-show="form.name.$dirty && form.name.$invalid">
+                    <input class="form-control" name="name" type="text" ng-model="user.name" required ng-pattern="/^[a-zA-Z]+/" ng-maxlength="30" ng-minlength="6">
+                    <div class="box-validate"  ng-show="form.name.$dirty && form.name.$invalid">
+                        <div ng-show="form.name.$error.pattern">Only latin symbols</div>
                         <div ng-show="form.name.$error.required">Field is a required</div>
-                        <div ng-show="form.name.$error.minlength">The minimum number of characters in a field 3</div>
+                        <div ng-show="form.name.$error.minlength">The minimum number of characters in a field 6</div>
                         <div ng-show="form.name.$error.maxlength">Maximum number of characters in the field no more than 30</div>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="password">E-mail <span class="asterisk">*</span></label>
-                    <input class="form-control" name="email" type="email" ng-model="user.email" required>
-                    <div  ng-show="form.email.$dirty && form.email.$invalid">
+                    <input class="form-control"  name="email" type="email" ng-model="user.email" required>
+                    <div class="box-validate" ng-show="form.email.$dirty && form.email.$invalid">
                         <div ng-show="form.email.$error.email">This field must contain email</div>
                         <div ng-show="form.email.$error.required">Field is a required</div>
                     </div>
@@ -69,7 +86,7 @@
                             <button ng-click="showHidePassword()" class="btn btn-default" type="button"><i class="glyphicon glyphicon-eye-open"></i></button>
                         </span>
                         <input type="{{inputType}}" name="password" class="form-control" ng-model="user.password" ng-maxlength="60" ng-minlength="3" required>
-                        <div  ng-show="form.password.$dirty && form.password.$invalid">
+                        <div class="box-validate" ng-show="form.password.$dirty && form.password.$invalid">
                             <div ng-show="form.password.$error.min">The minimum number of characters in a field 3</div>
                             <div ng-show="form.password.$error.max">Maximum number of characters in the field no more than 60</div>
                             <div ng-show="form.password.$error.required">Field is a required</div>
@@ -82,14 +99,14 @@
 
                     <select name="country" required class="form-control" ng-model="user.country" ng-options="country.name for country in countries track by country.name">
                     </select>
-                    <div  ng-show="form.country.$dirty && form.country.$invalid">
+                    <div class="box-validate" ng-show="form.country.$dirty && form.country.$invalid">
                         <div ng-show="form.country.$error.required">Field is a required</div>
                     </div>
                 </div>
                 <div class="form-group">
                     <label>Receive new info on your e-mail?</label> <br/>
                     <input type="radio" ng-model="user.receive" value="1"/> Yes
-                    <input type="radio" ng-model="user.receive" value="2"/> No
+                    <input type="radio" ng-model="user.receive" value="0"/> No
                 </div>
                 <div class="form-group">
                     <label>Select your interests</label><br/>       
@@ -116,6 +133,9 @@
                     <label>Upload avatar</label><br/>
                     <div class="btn btn-default" ngf-select ngf-change="upload($files)"><i class="glyphicon glyphicon-file"></i> Upload </div>
                     <div>{{log}}</div>
+                    <div class="crop" ng-hide="preview">
+                        <img src="download/cache/{{imgsrc}}" alt="Upload image">
+                    </div>
                 </div>
 
                 <div class="form-group" ng-hide="successAlert">
